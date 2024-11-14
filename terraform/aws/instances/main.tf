@@ -30,7 +30,7 @@ output "master_public_ip" {
 
 # Output for the worker nodes' public IPs
 output "worker_public_ips" {
-  value       = [for instance in aws_instance.example[1:] : instance.public_ip]
+  value       = [for instance in aws_instance.example[1:] : instance.public_ip"]"
   description = "Public IPs of the worker nodes"
 }
 
