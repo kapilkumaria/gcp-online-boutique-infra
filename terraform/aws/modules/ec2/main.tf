@@ -44,3 +44,8 @@ tags = {
 
   subnet_id = element(var.subnet_ids, count.index % length(var.subnet_ids))
 }
+
+# Output the list of created instances so they can be referenced outside this module
+output "instances" {
+  value = aws_instance.example
+}
