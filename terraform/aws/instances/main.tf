@@ -21,21 +21,3 @@ module "ec2_instance" {
   outbound_protocol  = ["-1"]
   outbound_cidr      = ["0.0.0.0/0"]
 }
-
-# Output for the master node's public IP
-output "master_public_ip" {
-  value       = aws_instance.example[0].public_ip
-  description = "Public IP of the master node"
-}
-
-# Output for the worker nodes' public IPs
-output "worker_public_ips" {
-  value       = [for instance in aws_instance.example[1:] : instance.public_ip"]"
-  description = "Public IPs of the worker nodes"
-}
-
-# Output for all instance private IPs (master and workers)
-output "private_ips" {
-  value       = [for instance in aws_instance.example : instance.private_ip]
-  description = "Private IPs of all nodes (master and workers)"
-}

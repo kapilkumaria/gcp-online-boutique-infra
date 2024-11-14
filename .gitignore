@@ -1,0 +1,55 @@
+# Terraform
+# Ignore Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Ignore crash logs and backups
+crash.log
+*.tfvars
+*.tfvars.json
+*.backup
+
+# Ignore Terraform plan output files
+*.tfplan
+
+# Ignore Terraform module downloads
+.terraform/
+.terraform.lock.hcl
+
+# Ignore local override files (useful for secrets and environment-specific values)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore sensitive files that may contain secrets
+terraform.tfvars
+terraform.tfvars.json
+
+# Ignore generated files
+*.log
+*.bak
+
+# Ansible
+# Ignore Ansible retry files
+*.retry
+
+# Ignore SSH private keys (if any are stored)
+*.pem
+*.key
+
+# Ignore compiled Python files
+*.pyc
+
+# Ignore roles downloaded by ansible-galaxy
+roles/
+
+# Ignore inventory files if they contain sensitive information
+inventory/
+host_vars/
+group_vars/
+
+# Ignore temporary files created by Ansible and SSH sessions
+*.log
+*.retry
+.ssh/
