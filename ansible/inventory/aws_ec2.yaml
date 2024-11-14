@@ -1,0 +1,9 @@
+plugin: amazon.aws.aws_ec2
+regions:
+  - us-east-1  # Replace with your AWS region
+filters:
+  tag:Name: ["controlplane", "node01", "node02"]
+keyed_groups:
+  - key: tags.Name
+hostnames:
+  - tag:Name
