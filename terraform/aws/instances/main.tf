@@ -1,6 +1,5 @@
 provider "aws" {
-  region = "us-east-1"
-  profile = "jenkins"
+  region = "us-east-1"  
 }
 
 module "ec2_instance" {
