@@ -42,7 +42,7 @@ terraform.tfvars.json
 *.pyc
 
 # Ignore roles downloaded by ansible-galaxy
-roles/
+!roles/
 
 # Ignore inventory files if they contain sensitive information
 inventory/
