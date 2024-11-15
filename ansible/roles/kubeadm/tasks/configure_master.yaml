@@ -21,3 +21,11 @@
     content: "{{ join_command.stdout }}"
     dest: /tmp/join_command.sh
   become: yes
+
+- name: Set executable permissions for join_command.sh
+  file:
+    path: /tmp/join_command.sh
+    mode: '0755'
+    owner: root
+    group: root
+  become: yes

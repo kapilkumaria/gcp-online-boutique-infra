@@ -8,3 +8,12 @@
 - name: Execute join command on worker nodes
   shell: bash /tmp/join_command.sh
   become: yes
+
+- name: Label worker nodes with custom roles
+      shell: >
+        kubectl label node {{ inventory_hostname }}
+        node-role.kubernetes.io/{{ worker_role }}=worker --overwrite
+      become: yes
+      vars:
+        worker_role: "{{ 'worker01' if inventory_hostname == 'node01' else 'worker02' }}"
+      when: "'controlplane' not in inventory_hostname"
