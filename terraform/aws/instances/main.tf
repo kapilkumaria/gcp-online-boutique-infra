@@ -3,15 +3,15 @@
  After the creation you can uncomment it,
  run "terraform init" and then "terraform apply" */
 
-/*terraform {
+terraform {
    backend "s3" {
      bucket         = "gcp-terraform-state-backend"
      key            = "global/s3/terraform.tfstate"
      region         = "us-east-1"
-     dynamodb_table = "terraform_state"
+     dynamodb_table = "gcp_terraform_state"
      encrypt        = true
    }
-}*/
+}
 
 provider "aws" {
   region = "us-east-1"
