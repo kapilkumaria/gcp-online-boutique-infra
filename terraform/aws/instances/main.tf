@@ -15,7 +15,7 @@
 
 provider "aws" {
   region = "us-east-1"
-  profile = "myAWS"  
+#  profile = "myAWS"  
 }
 
 resource "aws_s3_bucket" "bucket" {
@@ -37,9 +37,11 @@ resource "aws_s3_bucket" "bucket" {
         }
     }
 
-    object_lock_configuration {
-        object_lock_enabled = "Enabled"
-    }
+    object_lock_enabled = true  # Set the top-level parameter for object lock
+
+    #object_lock_configuration {
+    #    object_lock_enabled = "Enabled"
+    #}
     
     tags = {
         Name = "S3 Remote Terraform State Store"
