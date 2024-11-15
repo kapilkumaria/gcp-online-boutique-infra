@@ -1,9 +1,10 @@
-plugin: amazon.aws.aws_ec2
-regions:
-  - us-east-1  # Replace with your AWS region
-filters:
-  tag:Name: ["controlplane", "node01", "node02"]
-keyed_groups:
-  - key: tags.Name
-hostnames:
-  - tag:Name
+[controlplane]
+master_node ansible_host=<master_public_ip> ansible_user=ubuntu
+
+[workers]
+worker1 ansible_host=<worker1_public_ip> ansible_user=ubuntu
+worker2 ansible_host=<worker2_public_ip> ansible_user=ubuntu
+
+[k8s:children]
+controlplane
+workers
