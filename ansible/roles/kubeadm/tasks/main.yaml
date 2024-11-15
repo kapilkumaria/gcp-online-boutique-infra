@@ -1,0 +1,11 @@
+- include_tasks: configure_common.yaml
+  when: "'all' in group_names"
+
+- include_tasks: configure_master.yaml
+  when: "'controlplane' in group_names"
+
+- include_tasks: join_workers.yaml
+  when: "'workers' in group_names"
+
+- include_tasks: deploy_metric-server.yaml
+  when: "'controlplane' in group_names"
