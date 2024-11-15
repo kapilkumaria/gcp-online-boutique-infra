@@ -1,5 +1,5 @@
 - name: Run common setup on all nodes
-  hosts: all
+  hosts: controlplane workers
   become: yes
   roles:
     - role: kubeadm

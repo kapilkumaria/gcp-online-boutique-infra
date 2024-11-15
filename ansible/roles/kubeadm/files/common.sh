@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Common setup for all servers (Control Plane and Nodes)
-sudo su -
+
 set -euxo pipefail
 
 # Kubernetes Variable Declaration
