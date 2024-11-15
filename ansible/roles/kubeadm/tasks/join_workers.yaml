@@ -1,0 +1,10 @@
+- name: Fetch join command from master node
+  fetch:
+    src: /tmp/join_command.sh
+    dest: /tmp/join_command.sh
+    flat: yes
+  delegate_to: master_node
+
+- name: Execute join command on worker nodes
+  shell: bash /tmp/join_command.sh
+  become: yes
