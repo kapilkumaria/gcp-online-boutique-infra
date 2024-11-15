@@ -8,6 +8,7 @@
 - name: Run master.sh script on the master node
   shell: /tmp/master.sh
   args:
+    executable: /bin/bash
     creates: /etc/kubernetes/admin.conf
   become: yes
 

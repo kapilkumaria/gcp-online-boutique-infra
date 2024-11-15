@@ -1,9 +1,9 @@
 [controlplane]
-master_node ansible_host=35.171.165.172 ansible_user=root
+master_node ansible_host=50.16.94.248 ansible_user=root
 
 [workers]
-worker1 ansible_host=35.175.108.243 ansible_user=root
-worker2 ansible_host=52.54.184.153 ansible_user=root
+worker1 ansible_host=44.200.51.52 ansible_user=root
+worker2 ansible_host=3.87.157.51 ansible_user=root
 
 [k8s:children]
 controlplane

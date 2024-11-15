@@ -2,6 +2,7 @@
 #!/bin/bash
 #
 # Setup for Control Plane (Master) servers
+sudo apt update -y
 
 set -euxo pipefail
 
