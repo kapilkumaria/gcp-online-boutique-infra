@@ -1,9 +1,9 @@
 [controlplane]
-master_node ansible_host=<master_public_ip> ansible_user=ubuntu
+master_node ansible_host=44.222.83.184 ansible_user=ubuntu
 
 [workers]
-worker1 ansible_host=<worker1_public_ip> ansible_user=ubuntu
-worker2 ansible_host=<worker2_public_ip> ansible_user=ubuntu
+worker1 ansible_host=3.239.28.118 ansible_user=ubuntu
+worker2 ansible_host=18.209.171.248 ansible_user=ubuntu
 
 [k8s:children]
 controlplane
