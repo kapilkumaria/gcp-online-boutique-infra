@@ -4,7 +4,11 @@
     src: "{{ role_path }}/files/common.sh"
     dest: /tmp/common.sh
     mode: '0755'
+    
 
 - name: Run common.sh script on all nodes
   shell: /tmp/common.sh
   become: yes
+  args:
+    creates: /tmp/common_sh_executed.marker  # Ensures script only runs if needed
+

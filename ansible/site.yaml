@@ -1,13 +1,15 @@
 - name: Run common setup on all nodes
-  hosts: controlplane workers
+  hosts: all
   become: yes
-  roles:
-    - role: kubeadm
-      tasks_from: configure_common.yaml
+  tasks:
+    - include_role:
+        name: kubeadm
+        tasks_from: configure_common.yaml
 
 - name: Configure master node
   hosts: controlplane
   become: yes
-  roles:
-    - role: kubeadm
-      tasks_from: configure_master.yaml
+  tasks:
+    - include_role:
+        name: kubeadm
+        tasks_from: configure_master.yaml
