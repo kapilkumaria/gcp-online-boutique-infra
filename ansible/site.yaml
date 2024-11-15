@@ -1,0 +1,5 @@
+- name: Kubernetes Cluster Setup
+  hosts: all
+  become: yes
+  roles:
+    - role: kubeadm
