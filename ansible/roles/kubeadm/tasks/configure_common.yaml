@@ -1,4 +1,5 @@
 - name: Copy common.sh script to the remote node
+  become: yes  # Ensures the copy action is done as root, avoiding any permission issues
   copy:
     src: "{{ role_path }}/files/common.sh"
     dest: /tmp/common.sh

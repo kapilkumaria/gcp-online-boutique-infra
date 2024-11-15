@@ -1,4 +1,5 @@
 - name: Copy master.sh script to the master node
+  become: yes  # Ensures the copy action is done as root, avoiding any permission issues
   copy:
     src: "{{ role_path }}/files/master.sh"
     dest: /tmp/master.sh
