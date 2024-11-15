@@ -1,0 +1,10 @@
+- name: Copy metric-server.yaml to the master node
+  copy:
+    src: "{{ role_path }}/files/metric-server.yaml"
+    dest: /tmp/metric-server.yaml
+  when: inventory_hostname in groups['controlplane']
+
+- name: Deploy metrics server
+  shell: kubectl apply -f /tmp/metric-server.yaml
+  become: yes
+  when: inventory_hostname in groups['controlplane']
