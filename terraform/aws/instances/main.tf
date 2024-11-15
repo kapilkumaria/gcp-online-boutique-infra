@@ -1,7 +1,86 @@
+/*# Backend must remain commented until the Bucket
+ and the DynamoDB table are created. 
+ After the creation you can uncomment it,
+ run "terraform init" and then "terraform apply" */
+
+/*terraform {
+   backend "s3" {
+     bucket         = "gcp-terraform-state-backend"
+     key            = "global/s3/terraform.tfstate"
+     region         = "us-east-1"
+     dynamodb_table = "terraform_state"
+     encrypt        = true
+   }
+}*/
+
 provider "aws" {
   region = "us-east-1"
   profile = "myAWS"  
 }
+
+resource "aws_s3_bucket" "bucket" {
+    bucket = "gcp-terraform-state-backend"
+
+    lifecycle {
+        prevent_destroy = true
+    }
+
+    versioning {
+        enabled = true
+    }
+
+    server_side_encryption_configuration {
+        rule {
+            apply_server_side_encryption_by_default {
+                sse_algorithm = "AES256"
+            }
+        }
+    }
+
+    object_lock_configuration {
+        object_lock_enabled = "Enabled"
+    }
+    
+    tags = {
+        Name = "S3 Remote Terraform State Store"
+    }
+}
+
+
+resource "aws_dynamodb_table" "terraform-lock" {
+    name = "gcp_terraform_state"
+    hash_key = "LockID"
+    read_capacity = 20
+    write_capacity = 20
+
+    attribute {
+        name = "LockID"
+        type = "S"
+    }
+
+    tags = {
+        Name = "var.dynamo-tag"
+    }
+}
+
+resource "aws_iam_policy" "policydocument" {
+  name        = "tf-policydocument"
+  policy      = data.aws_iam_policy_document.example.json
+}
+
+data "aws_iam_policy_document" "example" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:GetObject",
+      "s3:PutObject"
+    ]
+    resources = [
+      "arn:aws:s3:::may28-terraform-state-backend/*"
+    ]
+  }
+}
+
 
 module "ec2_instance" {
   source = "../modules/ec2"
