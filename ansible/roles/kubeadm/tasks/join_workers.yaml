@@ -4,16 +4,33 @@
     dest: /tmp/join_command.sh
     flat: yes
   delegate_to: master_node
+  become: yes
+
+- name: Copy join command to worker nodes
+  copy:
+    src: /tmp/join_command.sh
+    dest: /tmp/join_command.sh
+    mode: '0755'
+  become: yes
+  when: inventory_hostname in groups['workers']
 
 - name: Execute join command on worker nodes
   shell: bash /tmp/join_command.sh
   become: yes
+  args:
+    creates: /etc/kubernetes/kubelet.conf
 
-- name: Label worker nodes with custom roles
-      shell: >
-        kubectl label node {{ inventory_hostname }}
-        node-role.kubernetes.io/{{ worker_role }}=worker --overwrite
-      become: yes
-      vars:
-        worker_role: "{{ 'worker01' if inventory_hostname == 'node01' else 'worker02' }}"
-      when: "'controlplane' not in inventory_hostname"
+- name: Label node01 with custom role
+  command: >
+    kubectl label node node01 node-role.kubernetes.io/worker01=worker --overwrite
+  become: yes
+  delegate_to: master_node
+  when: inventory_hostname == 'worker1'
+
+- name: Label node02 with custom role
+  command: >
+    kubectl label node node02 node-role.kubernetes.io/worker02=worker --overwrite
+  become: yes
+  delegate_to: master_node
+  when: inventory_hostname == 'worker2'
+

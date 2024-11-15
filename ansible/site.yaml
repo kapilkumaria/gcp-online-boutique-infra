@@ -13,3 +13,15 @@
     - include_role:
         name: kubeadm
         tasks_from: configure_master.yaml
+
+- name: Join worker nodes to the cluster
+  hosts: workers
+  become: yes
+  tasks:
+    - include_role:
+        name: kubeadm
+        tasks_from: join_workers.yaml
+        
+  
+
+
