@@ -1,5 +1,6 @@
 pipeline {
-    agent any
+    # agent any
+    agent { label 'dev' }
 
     environment {
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID') // Replace with your Jenkins credentials ID
