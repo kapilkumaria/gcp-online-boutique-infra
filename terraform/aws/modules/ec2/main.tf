@@ -46,6 +46,15 @@ tags = {
 }
 
 # Output the list of created instances so they can be referenced outside this module
-output "instances" {
-  value = aws_instance.example
+#output "instances" {
+#  value = aws_instance.example
+#}
+
+output "master_node_public_ip" {
+  value = aws_instance.example[0].public_ip
 }
+
+output "worker_node_public_ips" {
+  value = aws_instance.example[*].public_ip
+}
+

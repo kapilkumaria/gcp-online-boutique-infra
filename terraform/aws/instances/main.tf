@@ -103,3 +103,12 @@ module "ec2_instance" {
   outbound_protocol  = ["-1"]
   outbound_cidr      = ["0.0.0.0/0"]
 }
+
+# Correct outputs referencing the module outputs
+output "master_node_public_ip" {
+  value = module.ec2_instance.master_node_public_ip
+}
+
+output "worker_node_public_ips" {
+  value = module.ec2_instance.worker_node_public_ips
+}
