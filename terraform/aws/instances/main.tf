@@ -3,7 +3,7 @@
  After the creation you can uncomment it,
  run "terraform init" and then "terraform apply" */
 
-/*terraform {
+terraform {
    backend "s3" {
      bucket         = "gcp-terraform-state-backend"
      key            = "global/s3/terraform.tfstate"
@@ -16,7 +16,7 @@
 provider "aws" {
   region = "us-east-1"
 #  profile = "myAWS"  
-}*/
+}
 
 resource "aws_s3_bucket" "bucket" {
     bucket = "gcp-terraform-state-backend"
