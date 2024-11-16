@@ -2,6 +2,9 @@
 #
 # Common setup for all servers (Control Plane and Nodes)
 sudo apt update -y
+sudo apt-get upgrade -y
+sudo apt-get dist-upgrade -y
+
 set -euxo pipefail
 
 # Kubernetes Variable Declaration
