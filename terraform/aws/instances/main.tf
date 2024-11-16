@@ -18,7 +18,7 @@ provider "aws" {
 #  profile = "myAWS"  
 }
 
-resource "aws_s3_bucket" "bucket" {
+/*resource "aws_s3_bucket" "bucket" {
     bucket = "gcp-terraform-state-backend"
 
     lifecycle {
@@ -46,7 +46,7 @@ resource "aws_s3_bucket" "bucket" {
     tags = {
         Name = "S3 Remote Terraform State Store"
     }
-}
+}*/
 
 
 resource "aws_dynamodb_table" "terraform-lock" {
@@ -111,4 +111,24 @@ output "master_node_public_ip" {
 
 output "worker_node_public_ips" {
   value = module.ec2_instance.worker_node_public_ips
+}
+
+# Add the local_file resource to dynamically create the Ansible inventory
+resource "local_file" "ansible_inventory" {
+  filename = "${path.module}/../../ansible/inventory/aws_ec2.yaml"
+  
+
+  content = <<EOT
+[controlplane]
+master_node ansible_host=${module.ec2_instance.master_node_public_ip} ansible_user=root
+
+[workers]
+%{ for index, ip in module.ec2_instance.worker_node_public_ips }
+worker${index + 1} ansible_host=${ip} ansible_user=root
+%{ endfor }
+
+[k8s:children]
+controlplane
+workers
+EOT
 }
