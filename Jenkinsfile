@@ -73,7 +73,23 @@ pipeline {
                 """
             }
         }
-        
+
+        stage('Deploy Microservices Application') {
+            steps {
+                echo 'Cloning microservices repository...'
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/feature/cicd']],
+                    doGenerateSubmoduleConfigurations: false,
+                    extensions: [],
+                    userRemoteConfigs: [[url: 'https://github.com/kapilkumaria/gcp-online-boutique-microservices.git']]
+                ])
+                echo 'Deploying microservices application to Kubernetes...'
+                dir('kubernetes-manifests') {
+                    sh 'kubectl apply -f .'
+                }
+            }
+        }        
     }
 
     post {
