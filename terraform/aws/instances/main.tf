@@ -105,10 +105,10 @@ module "ec2_instance" {
   # Pass the SSH public key through user_data
   user_data = <<EOT
 #!/bin/bash
-mkdir -p /home/ubuntu/.ssh
-echo "$(file("~/.ssh/id_rsa_terraform.pub"))" >> /home/ubuntu/.ssh/authorized_keys
-chmod 600 /home/ubuntu/.ssh/authorized_keys
-chown -R ubuntu:ubuntu /home/ubuntu/.ssh
+mkdir -p /root/.ssh
+echo "$(file("~/.ssh/id_rsa_terraform.pub"))" >> /root/.ssh/authorized_keys
+chmod 600 /root/.ssh/authorized_keys
+chown -R root:root /root/.ssh
 EOT
 }
 
