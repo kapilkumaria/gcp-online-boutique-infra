@@ -23,6 +23,14 @@ variable "instance_type" {
   default = "t2.small"
 }
 
+variable "user_data" {
+  description = "Optional user data to launch the instance"
+  type        = string
+  default     = null
+}
+
+
+
 variable "key_name" {
   type    = string
   default = "devops1"

@@ -102,7 +102,7 @@ module "ec2_instance" {
   outbound_protocol  = ["-1"]
   outbound_cidr      = ["0.0.0.0/0"]
 
-  # Inject the public key into instances with user_data
+  # Pass the SSH public key through user_data
   user_data = <<EOT
 #!/bin/bash
 mkdir -p /home/ubuntu/.ssh
@@ -110,11 +110,8 @@ echo "$(file("~/.ssh/id_rsa_terraform.pub"))" >> /home/ubuntu/.ssh/authorized_ke
 chmod 600 /home/ubuntu/.ssh/authorized_keys
 chown -R ubuntu:ubuntu /home/ubuntu/.ssh
 EOT
-
-  tags = {
-    Name = "Instance-${count.index}"
-  }
 }
+
 
 # Correct outputs referencing the module outputs
 output "master_node_public_ip" {

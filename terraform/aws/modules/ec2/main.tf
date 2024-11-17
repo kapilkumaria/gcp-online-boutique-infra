@@ -26,24 +26,20 @@ resource "aws_security_group" "instance-sg" {
 
 
 resource "aws_instance" "example" {
-  count = var.instance_count
+  count         = var.instance_count
+  ami           = var.ami_id
+  instance_type = var.instance_type
+  key_name      = var.key_name
+  subnet_id     = element(var.subnet_ids, count.index)
 
-  ami                    = var.ami_id
-  instance_type          = var.instance_type
-  key_name               = var.key_name
-  vpc_security_group_ids = [aws_security_group.instance-sg.id]
+  # Add support for user_data
+  user_data = var.user_data
 
-  user_data = <<-EOF
-    #cloud-config
-    hostname: ${count.index == 0 ? "controlplane" : "node0${count.index}"}
-  EOF
-
-tags = {
-    Name = count.index == 0 ? "controlplane" : "node0${count.index}"
+  tags = {
+    Name = "${var.instance_name}-${count.index}"
   }
-
-  subnet_id = element(var.subnet_ids, count.index % length(var.subnet_ids))
 }
+
 
 # Output the list of created instances so they can be referenced outside this module
 #output "instances" {
