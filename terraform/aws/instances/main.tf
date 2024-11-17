@@ -83,7 +83,6 @@ data "aws_iam_policy_document" "example" {
   }
 }
 
-
 module "ec2_instance" {
   source = "../modules/ec2"
 
@@ -103,23 +102,11 @@ module "ec2_instance" {
   outbound_protocol  = ["-1"]
   outbound_cidr      = ["0.0.0.0/0"]
 
-  # Pass the SSH public key as a variable (New addition)
-  ssh_public_key = file("~/.ssh/id_rsa_terraform.pub") # Add path to your public key
-}
-
-# Add the new resource to distribute SSH keys via user_data (New addition)
-resource "aws_instance" "instance_with_ssh_key" {
-  count         = module.ec2_instance.instance_count
-  ami           = module.ec2_instance.ami_id
-  instance_type = module.ec2_instance.instance_type
-  key_name      = module.ec2_instance.key_name
-  subnet_id     = element(module.ec2_instance.subnet_ids, count.index)
-
-  # Add user_data script to include the public key in authorized_keys
+  # Inject the public key into instances with user_data
   user_data = <<EOT
 #!/bin/bash
 mkdir -p /home/ubuntu/.ssh
-echo "${module.ec2_instance.ssh_public_key}" >> /home/ubuntu/.ssh/authorized_keys
+echo "$(file("~/.ssh/id_rsa_terraform.pub"))" >> /home/ubuntu/.ssh/authorized_keys
 chmod 600 /home/ubuntu/.ssh/authorized_keys
 chown -R ubuntu:ubuntu /home/ubuntu/.ssh
 EOT
