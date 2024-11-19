@@ -18,7 +18,7 @@ provider "aws" {
 #  profile = "myAWS"  
 }
 
-resource "aws_s3_bucket" "bucket" {
+/*resource "aws_s3_bucket" "bucket" {
     bucket = "gcp-terraform-state-backend"
 
     lifecycle {
@@ -46,7 +46,7 @@ resource "aws_s3_bucket" "bucket" {
     tags = {
         Name = "S3 Remote Terraform State Store"
     }
-}
+}*/
 
 
 resource "aws_dynamodb_table" "terraform-lock" {
@@ -102,14 +102,20 @@ module "ec2_instance" {
   outbound_protocol  = ["-1"]
   outbound_cidr      = ["0.0.0.0/0"]
 
-  # Pass the SSH public key through user_data
-  user_data = <<EOT
-#!/bin/bash
-mkdir -p /root/.ssh
-echo "$(file("~/.ssh/id_rsa_terraform.pub"))" >> /root/.ssh/authorized_keys
-chmod 600 /root/.ssh/authorized_keys
-chown -R root:root /root/.ssh
-EOT
+  # Remove the key_name to prevent conflicts
+  # key_name = "devops1"
+
+  user_data = <<EOF
+#cloud-config
+users:
+  - default
+  - name: ubuntu
+    ssh-authorized-keys:
+      - ${chomp(jsonencode(file("/home/kapil/.ssh/id_rsa_terraform.pub")))}
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    shell: /bin/bash
+EOF
+
 }
 
 
