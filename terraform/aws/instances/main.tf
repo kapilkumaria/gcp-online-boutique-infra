@@ -7,24 +7,6 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_iam_policy" "policydocument" {
-  name        = "tf-policydocument"
-  policy      = data.aws_iam_policy_document.example.json
-}
-
-data "aws_iam_policy_document" "example" {
-  statement {
-    effect = "Allow"
-    actions = [
-      "s3:GetObject",
-      "s3:PutObject"
-    ]
-    resources = [
-      "arn:aws:s3:::may28-terraform-state-backend/*"
-    ]
-  }
-}
-
 module "ec2_instance" {
   source = "../modules/ec2"
 
