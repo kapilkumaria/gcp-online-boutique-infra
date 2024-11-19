@@ -83,7 +83,8 @@ resource "null_resource" "ansible_provisioner" {
       sleep 70 # Reduced wait time since we're using public IPs
       ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
         -i ./../../../ansible/inventory.ini \
-        ./../../../ansible/site.yaml 
+        ./../../../ansible/site.yaml \
+        -u ubuntu
         
     EOT
   }
