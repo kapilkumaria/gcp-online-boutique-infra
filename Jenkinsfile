@@ -55,6 +55,15 @@ pipeline {
             }
         }
 
+        stage('Cat Ansible Inventory File') {
+            steps {
+                echo 'Inventory File Contents...'
+                sh """
+                cat ansible/inventory/aws_ec2.yaml
+                """
+            }
+        }
+
         stage('Run Ansible Playbook') {
             steps {
                 echo 'Running Ansible Playbook...'
