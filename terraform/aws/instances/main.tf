@@ -53,7 +53,7 @@ output "worker_node_public_ips" {
 
 # Add the local_file resource to dynamically create the Ansible inventory
 resource "local_file" "ansible_inventory" {
-  filename = "${path.module}/../../ansible/inventory/aws_ec2.yaml"
+  filename = "${path.module}/../../ansible/inventory.ini"
   
 
   content = <<EOT
@@ -69,4 +69,21 @@ worker${index + 1} ansible_host=${ip}
 controlplane
 workers
 EOT
+}
+
+resource "null_resource" "ansible_provisioner" {
+  depends_on = [
+    local_file.ansible_inventory,
+    module.ec2_instance,
+    
+  ]
+
+  provisioner "local-exec" {
+    command = <<-EOT
+      sleep 70 # Reduced wait time since we're using public IPs
+      ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
+        -i ${path.module}/../../ansible/inventory.ini \
+        ${path.module}/../../ansible/site.yaml
+    EOT
+  }
 }

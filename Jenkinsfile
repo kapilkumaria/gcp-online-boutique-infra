@@ -55,23 +55,23 @@ pipeline {
             }
         }
 
-        stage('Cat Ansible Inventory File') {
-            steps {
-                echo 'Inventory File Contents...'
-                sh """
-                cat ansible/inventory/aws_ec2.yaml
-                """
-            }
-        }
+        // stage('Cat Ansible Inventory File') {
+        //     steps {
+        //         echo 'Inventory File Contents...'
+        //         sh """
+        //         cat ansible/inventory.ini
+        //         """
+        //     }
+        // }
 
-        stage('Run Ansible Playbook') {
-            steps {
-                echo 'Running Ansible Playbook...'
-                sh """
-                ansible-playbook -i ansible/inventory/aws_ec2.yaml ${ANSIBLE_PLAYBOOK} -vvv
-                """
-            }
-        }
+        // stage('Run Ansible Playbook') {
+        //     steps {
+        //         echo 'Running Ansible Playbook...'
+        //         sh """
+        //         ansible-playbook -i ansible/inventory/aws_ec2.yaml ${ANSIBLE_PLAYBOOK} -vvv
+        //         """
+        //     }
+        // }
         
         stage('Deploy Metric Server and Sample Nginx Application on K8s Cluster') {
             steps {
