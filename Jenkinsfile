@@ -30,7 +30,7 @@ pipeline {
                 dir('terraform/aws/instances') {
                     sh 'pwd'
                     echo 'Initializing Terraform...'
-                    sh 'terraform init'
+                    sh 'terraform init --reconfigure'
                 }
             }
         }
