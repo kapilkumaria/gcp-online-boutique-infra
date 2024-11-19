@@ -41,6 +41,7 @@ pipeline {
                 dir('terraform/aws/instances') {
                     echo 'Running Terraform Plan...'
                     sh 'terraform plan -lock=false'
+                    sh 'cat /root/.ssh/id_rsa_terraform'
                 }
             }
         }
