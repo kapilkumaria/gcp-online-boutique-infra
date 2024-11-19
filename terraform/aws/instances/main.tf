@@ -3,22 +3,12 @@
  After the creation you can uncomment it,
  run "terraform init" and then "terraform apply" */
 
-terraform {
-   backend "s3" {
-     bucket         = "gcp-terraform-state-backend"
-     key            = "global/s3/terraform.tfstate"
-     region         = "us-east-1"
-     dynamodb_table = "gcp_terraform_state"
-     encrypt        = true
-   }
-}
-
 provider "aws" {
   region = "us-east-1"
 #  profile = "myAWS"  
 }
 
-resource "aws_s3_bucket" "bucket" {
+/*resource "aws_s3_bucket" "bucket" {
     bucket = "gcp-terraform-state-backend"
 
     lifecycle {
@@ -46,7 +36,7 @@ resource "aws_s3_bucket" "bucket" {
     tags = {
         Name = "S3 Remote Terraform State Store"
     }
-}
+}*/
 
 
 resource "aws_dynamodb_table" "terraform-lock" {
@@ -135,11 +125,11 @@ resource "local_file" "ansible_inventory" {
 
   content = <<EOT
 [controlplane]
-master_node ansible_host=${module.ec2_instance.master_node_public_ip} ansible_user=root
+ansible_host=${module.ec2_instance.master_node_public_ip}
 
 [workers]
 %{ for index, ip in module.ec2_instance.worker_node_public_ips }
-worker${index + 1} ansible_host=${ip} ansible_user=root
+worker${index + 1} ansible_host=${ip}
 %{ endfor }
 
 [k8s:children]
@@ -147,3 +137,9 @@ controlplane
 workers
 EOT
 }
+
+
+
+#provisioner "local-exec" {
+#  command = "echo '${jsonencode(aws_instance.k8s-node[*].private_ip)}' > ansible_hosts.json"
+#}
