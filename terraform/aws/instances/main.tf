@@ -53,7 +53,7 @@ output "worker_node_public_ips" {
 
 # Add the local_file resource to dynamically create the Ansible inventory
 resource "local_file" "ansible_inventory" {
-  filename = "${path.module}/../../ansible/inventory.ini"
+  filename = "./../../../ansible/inventory.ini"
   
 
   content = <<EOT
@@ -82,8 +82,8 @@ resource "null_resource" "ansible_provisioner" {
     command = <<-EOT
       sleep 70 # Reduced wait time since we're using public IPs
       ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
-        -i ${path.module}/../../ansible/inventory.ini \
-        ${path.module}/../../ansible/site.yaml
+        -i ./../../../ansible/inventory.ini \
+        ./../../../ansible/site.yaml
     EOT
   }
 }
