@@ -1,4 +1,4 @@
-/*# Backend must remain commented until the Bucket
+/*# Backend must remain commented until the Buckets
  and the DynamoDB table are created. 
  After the creation you can uncomment it,
  run "terraform init" and then "terraform apply" */
