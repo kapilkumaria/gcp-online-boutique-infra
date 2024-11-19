@@ -18,7 +18,7 @@ provider "aws" {
 #  profile = "myAWS"  
 }
 
-/*resource "aws_s3_bucket" "bucket" {
+resource "aws_s3_bucket" "bucket" {
     bucket = "gcp-terraform-state-backend"
 
     lifecycle {
@@ -46,7 +46,7 @@ provider "aws" {
     tags = {
         Name = "S3 Remote Terraform State Store"
     }
-}*/
+}
 
 
 resource "aws_dynamodb_table" "terraform-lock" {
