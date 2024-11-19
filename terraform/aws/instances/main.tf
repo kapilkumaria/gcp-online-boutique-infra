@@ -84,7 +84,7 @@ resource "null_resource" "ansible_provisioner" {
       ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
         -i ./../../../ansible/inventory.ini \
         ./../../../ansible/site.yaml \
-        -- private-key=/root/.ssh/id_rsa_terraform \
+        --private-key=/root/.ssh/id_rsa_terraform \
         -u ubuntu         
     EOT
   }
