@@ -3,7 +3,8 @@ terraform {
      bucket         = "gcp-new-microservices"
      key            = "global/s3/terraform.tfstate"
      region         = "us-east-1"
-     dynamodb_table = "gcp_terraform_state"
+     dynamodb_table = "gcp-remote-locking"
      encrypt        = true
    }
 }
+

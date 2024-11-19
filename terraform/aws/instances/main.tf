@@ -5,54 +5,6 @@
 
 provider "aws" {
   region = "us-east-1"
-#  profile = "myAWS"  
-}
-
-/*resource "aws_s3_bucket" "bucket" {
-    bucket = "gcp-terraform-state-backend"
-
-    lifecycle {
-        prevent_destroy = true
-    }
-
-    versioning {
-        enabled = true
-    }
-
-    server_side_encryption_configuration {
-        rule {
-            apply_server_side_encryption_by_default {
-                sse_algorithm = "AES256"
-            }
-        }
-    }
-
-    object_lock_enabled = true  # Set the top-level parameter for object lock
-
-    #object_lock_configuration {
-    #    object_lock_enabled = "Enabled"
-    #}
-    
-    tags = {
-        Name = "S3 Remote Terraform State Store"
-    }
-}*/
-
-
-resource "aws_dynamodb_table" "terraform-lock" {
-    name = "gcp_terraform_state"
-    hash_key = "LockID"
-    read_capacity = 20
-    write_capacity = 20
-
-    attribute {
-        name = "LockID"
-        type = "S"
-    }
-
-    tags = {
-        Name = "var.dynamo-tag"
-    }
 }
 
 resource "aws_iam_policy" "policydocument" {
@@ -105,7 +57,6 @@ users:
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     shell: /bin/bash
 EOF
-
 }
 
 
@@ -137,9 +88,3 @@ controlplane
 workers
 EOT
 }
-
-
-
-#provisioner "local-exec" {
-#  command = "echo '${jsonencode(aws_instance.k8s-node[*].private_ip)}' > ansible_hosts.json"
-#}
