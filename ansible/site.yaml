@@ -1,6 +1,7 @@
 - name: Run common setup on all nodes
   hosts: all
   become: yes
+  become_user: ubuntu
   tasks:
     - include_role:
         name: kubeadm
@@ -9,6 +10,7 @@
 - name: Configure master node
   hosts: controlplane
   become: yes
+  become_user: ubuntu
   tasks:
     - include_role:
         name: kubeadm
@@ -16,7 +18,8 @@
 
 - name: Join worker nodes to the cluster
   hosts: workers
-  become: yess
+  become: yes
+  become_user: ubuntu
   tasks:
     - include_role:
         name: kubeadm
