@@ -111,7 +111,7 @@ users:
   - default
   - name: ubuntu
     ssh-authorized-keys:
-      - ${chomp(jsonencode(file("/home/ubuntu/.ssh/id_rsa_terraform.pub")))}
+      - ${chomp(jsonencode(file("~/.ssh/id_rsa_terraform.pub")))}
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     shell: /bin/bash
 EOF
